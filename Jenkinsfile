@@ -2,19 +2,19 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('checkout') {
             steps {
                 checkout scm
             }
         }
 
-        stage('Build Images') {
+        stage('build images') {
             steps {
                 sh 'docker-compose build'
             }
         }
 
-        stage('Deploy Application') {
+        stage('deploy application') {
             steps {
                 sh 'docker-compose.yaml up -d'
             }
@@ -23,11 +23,11 @@ pipeline {
 
     post {
         success {
-            echo 'Application deployed successfully.'
+            echo 'application deployed successfully'
         }
 
         failure {
-            echo 'Pipeline failed. Check the Jenkins console output.'
+            echo 'pipeline failed'
         }
     }
 }
