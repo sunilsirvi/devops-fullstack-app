@@ -1,0 +1,45 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: emp-back
+    environment:
+      ALLOWED_ORIGINS: "http://localhost:3000,http://192.168.1.12:3000"
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: emp
+      DB_PASSWORD: empe123
+      DB_NAME: employeedb321
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: emp-front
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16
+    container_name: emp-postgres
+    environment:
+      POSTGRES_USER: emp
+      POSTGRES_PASSWORD: empe123
+      POSTGRES_DB: employeedb321
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
