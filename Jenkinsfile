@@ -10,13 +10,13 @@ pipeline {
 
         stage('build images') {
             steps {
-                sh 'docker-compose build'
+                sh 'docker compose build'
             }
         }
 
         stage('deploy application') {
             steps {
-                sh 'docker-compose.yaml up -d'
+                sh 'docker compose up -d'
             }
         }
     }
